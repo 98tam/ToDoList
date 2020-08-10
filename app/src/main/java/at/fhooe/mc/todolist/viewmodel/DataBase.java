@@ -13,9 +13,9 @@ import at.fhooe.mc.todolist.model.TaskDao;
 public abstract class DataBase extends RoomDatabase {
 
     /**
+     * Get the database object of the task.
      *
-     *
-     * @return the task
+     * @return the database object of the task
      */
-    public abstract TaskDao taskDao();
+    public abstract TaskDao getTaskDao();
 }

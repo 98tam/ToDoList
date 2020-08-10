@@ -22,8 +22,9 @@ public class AddTaskActivity extends AppCompatActivity {
     private EditText mTaskText, mDescText;
 
     /**
+     * Initializes all given ui elements.
      *
-     * @param _savedInstanceState
+     * @param _savedInstanceState is the saved state
      */
     @Override
     protected void onCreate(Bundle _savedInstanceState) {
@@ -38,51 +39,59 @@ public class AddTaskActivity extends AppCompatActivity {
      * Saves the task to the database.
      */
     public void saveTask(View _view) {
-        final String sTask = mTaskText.getText().toString().trim();
-        final String sDesc = mDescText.getText().toString().trim();
-
-        if (sTask.isEmpty()) {
+        final String inputTask = mTaskText.getText().toString().trim();
+        if (inputTask.isEmpty()) {
             mTaskText.setError("Task missing!");
             mTaskText.requestFocus();
             return;
         }
 
-        if (sDesc.isEmpty()) {
+        final String inputDesc = mDescText.getText().toString().trim();
+        if (inputDesc.isEmpty()) {
             mDescText.setError("Description missing!");
             mDescText.requestFocus();
             return;
         }
 
         /**
-         *
+         * This class makes the whole saving of the input data.
          */
         class SaveTask extends AsyncTask<Void, Void, Void> {
 
+            /**
+             * Saves the tasks in the background.
+             * @param _void is the AsyncTask
+             * @return null
+             */
             @Override
-            protected Void doInBackground(Void... voids) {
-
+            protected Void doInBackground(Void... _void) {
                 Task task = new Task();
-                task.setTask(sTask);
-                task.setDesc(sDesc);
+                task.setTask(inputTask);
+                task.setDesc(inputDesc);
                 task.setFinished(false);
 
-                DatabaseClient.getInstance(getApplicationContext()).getDatabase()
-                        .taskDao()
+                DatabaseClient.getInstance(getApplicationContext())
+                        .getDatabase()
+                        .getTaskDao()
                         .insert(task);
                 return null;
             }
 
+            /**
+             * Go back to the main activitiy after finishing the saving.
+             * @param _void
+             */
             @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
+            protected void onPostExecute(Void _void) {
+                super.onPostExecute(_void);
                 finish();
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
             }
         }
 
-        SaveTask st = new SaveTask();
-        st.execute();
+        SaveTask saveTask = new SaveTask();
+        saveTask.execute();
     }
 
 

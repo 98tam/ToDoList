@@ -47,6 +47,7 @@
             android:layout_marginTop="15dp"
             android:background="@color/colorPrimary"
             android:text="Update"
+            android:onClick="updateTask"
             android:textAllCaps="false"
             android:textColor="@color/colorLight" />
 
@@ -59,6 +60,7 @@
             android:layout_marginTop="15dp"
             android:background="@color/colorRed"
             android:text="Delete"
+            android:onClick="deleteTask"
             android:textAllCaps="false"
             android:textColor="@color/colorLight" />
 

@@ -15,100 +15,94 @@ import androidx.appcompat.app.AppCompatActivity;
 import at.fhooe.mc.todolist.model.Task;
 import at.fhooe.mc.todolist.viewmodel.DatabaseClient;
 
+/**
+ * This activity updates the task changes.
+ */
 public class UpdateTaskActivity extends AppCompatActivity {
 
+    //the given edit-text-fields
     private EditText editTextTask, editTextDesc;
+    //the finish checkbox of a task
     private CheckBox checkBoxFinished;
+    //the current task
+    private Task mTask;
 
-
+    /**
+     * Initializes all given ui elements and loads the current task.
+     *
+     * @param _savedInstanceState is the saved state
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle _savedInstanceState) {
+        super.onCreate(_savedInstanceState);
         setContentView(R.layout.activity_update_task);
-
 
         editTextTask = findViewById(R.id.editTextTask);
         editTextDesc = findViewById(R.id.editTextDesc);
-
         checkBoxFinished = findViewById(R.id.checkBoxFinished);
 
-
-        final Task task = (Task) getIntent().getSerializableExtra("task");
-
-        loadTask(task);
-
-        findViewById(R.id.button_update).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Clicked", Toast.LENGTH_LONG).show();
-                updateTask(task);
-            }
-        });
-
-        findViewById(R.id.button_delete).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(UpdateTaskActivity.this);
-                builder.setTitle("Are you sure?");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        deleteTask(task);
-                    }
-                });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-
-                AlertDialog ad = builder.create();
-                ad.show();
-            }
-        });
+        mTask = (Task) getIntent().getSerializableExtra("task");
+        loadTask();
     }
 
-    private void loadTask(Task task) {
-        editTextTask.setText(task.getTask());
-        editTextDesc.setText(task.getDesc());
-        checkBoxFinished.setChecked(task.isFinished());
+    /**
+     * Loads the current task.
+     */
+    private void loadTask() {
+        editTextTask.setText(mTask.getTask());
+        editTextDesc.setText(mTask.getDesc());
+        checkBoxFinished.setChecked(mTask.isFinished());
     }
 
-    private void updateTask(final Task task) {
-        final String sTask = editTextTask.getText().toString().trim();
-        final String sDesc = editTextDesc.getText().toString().trim();
+    /**
+     * Updates changes on the task.
+     *
+     * @param _view the given view
+     */
+    public void updateTask(View _view) {
+        final String inputTask = editTextTask.getText().toString().trim();
 
-        if (sTask.isEmpty()) {
-            editTextTask.setError("Task required");
+        if (inputTask.isEmpty()) {
+            editTextTask.setError("Task missing!");
             editTextTask.requestFocus();
             return;
         }
 
-        if (sDesc.isEmpty()) {
-            editTextDesc.setError("Desc required");
+        final String inputDescription = editTextDesc.getText().toString().trim();
+        if (inputDescription.isEmpty()) {
+            editTextDesc.setError("Description missing!");
             editTextDesc.requestFocus();
             return;
         }
 
+        /**
+         * Updates the data in the database.
+         */
         class UpdateTask extends AsyncTask<Void, Void, Void> {
 
+            /**
+             * Updates the data in the background.
+             * @param _void is the AsyncTask
+             * @return null
+             */
             @Override
-            protected Void doInBackground(Void... voids) {
-                task.setTask(sTask);
-                task.setDesc(sDesc);
-                task.setFinished(checkBoxFinished.isChecked());
+            protected Void doInBackground(Void... _void) {
+                mTask.setTask(inputTask);
+                mTask.setDesc(inputDescription);
+                mTask.setFinished(checkBoxFinished.isChecked());
                 DatabaseClient.getInstance(getApplicationContext()).getDatabase()
-                        .taskDao()
-                        .update(task);
+                        .getTaskDao()
+                        .update(mTask);
                 return null;
             }
 
+            /**
+             * Go back to the main activitiy after finishing the update.
+             * @param _void
+             */
             @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_LONG).show();
+            protected void onPostExecute(Void _void) {
+                super.onPostExecute(_void);
                 finish();
                 startActivity(new Intent(UpdateTaskActivity.this, MainActivity.class));
             }
@@ -118,31 +112,70 @@ public class UpdateTaskActivity extends AppCompatActivity {
         ut.execute();
     }
 
+    /**
+     * Delete the given task.
+     *
+     * @param _task the given task
+     */
+    private void deleteTask(final Task _task) {
 
-    private void deleteTask(final Task task) {
+        /**
+         * Deletes the task in the database.
+         */
         class DeleteTask extends AsyncTask<Void, Void, Void> {
 
+            /**
+             * Deletes the data in the background.
+             * @param _void the AsyncTask
+             * @return null
+             */
             @Override
-            protected Void doInBackground(Void... voids) {
+            protected Void doInBackground(Void... _void) {
                 DatabaseClient.getInstance(getApplicationContext()).getDatabase()
-                        .taskDao()
-                        .delete(task);
+                        .getTaskDao()
+                        .delete(_task);
                 return null;
             }
 
+            /**
+             * Go back to the main activitiy after finishing the deletion.
+             * @param _void
+             */
             @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
+            protected void onPostExecute(Void _void) {
+                super.onPostExecute(_void);
                 Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_LONG).show();
                 finish();
                 startActivity(new Intent(UpdateTaskActivity.this, MainActivity.class));
             }
         }
 
-        DeleteTask dt = new DeleteTask();
-        dt.execute();
-
+        DeleteTask deleteTask = new DeleteTask();
+        deleteTask.execute();
     }
 
+    /**
+     * Provides the dialog which asks for deletion of the data.
+     *
+     * @param _view is the current view
+     */
+    public void deleteTask(View _view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(UpdateTaskActivity.this);
+        builder.setTitle("Are you sure?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface _dialogInterface, int _i) {
+                deleteTask(mTask);
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface _dialogInterface, int _i) {
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 }
 

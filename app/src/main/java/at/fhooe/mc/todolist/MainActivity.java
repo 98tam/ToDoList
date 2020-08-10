@@ -17,57 +17,66 @@ import at.fhooe.mc.todolist.model.Task;
 import at.fhooe.mc.todolist.view.TaskAdapter;
 import at.fhooe.mc.todolist.viewmodel.DatabaseClient;
 
+/**
+ * The main activity provides the overview of all to-do-tasks.
+ */
 public class MainActivity extends AppCompatActivity {
-
-    private FloatingActionButton buttonAddTask;
+    //the recyclerview
     private RecyclerView recyclerView;
 
+    /**
+     * Initializes all given ui elements and provides the tasks
+     * from the database.
+     *
+     * @param _savedInstanceState is the saved state
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle _savedInstanceState) {
+        super.onCreate(_savedInstanceState);
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.recyclerview_tasks);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        buttonAddTask = findViewById(R.id.floating_button_add);
+        FloatingActionButton buttonAddTask = findViewById(R.id.floating_button_add);
         buttonAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View _view) {
                 Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
                 startActivity(intent);
             }
         });
 
-
-        getTasks();
-
-    }
-
-
-    private void getTasks() {
+        /**
+         * Supplies the needed database elements.
+         */
         class GetTasks extends AsyncTask<Void, Void, List<Task>> {
 
+            /**
+             * Saves the tasks in the background.
+             * @param _void is the AsyncTask
+             * @return the list of tasks.
+             */
             @Override
-            protected List<Task> doInBackground(Void... voids) {
-                List<Task> taskList = DatabaseClient
-                        .getInstance(getApplicationContext())
+            protected List<Task> doInBackground(Void... _void) {
+                return DatabaseClient.getInstance(getApplicationContext())
                         .getDatabase()
-                        .taskDao()
+                        .getTaskDao()
                         .getAll();
-                return taskList;
             }
 
+            /**
+             * Provides the new adapter with the updated list.
+             * @param _list is the list of tasks
+             */
             @Override
-            protected void onPostExecute(List<Task> tasks) {
-                super.onPostExecute(tasks);
-                TaskAdapter adapter = new TaskAdapter(MainActivity.this, tasks);
-                recyclerView.setAdapter(adapter);
+            protected void onPostExecute(List<Task> _list) {
+                super.onPostExecute(_list);
+                recyclerView.setAdapter(new TaskAdapter(MainActivity.this, _list));
             }
         }
 
-        GetTasks gt = new GetTasks();
-        gt.execute();
+        GetTasks getTasks = new GetTasks();
+        getTasks.execute();
     }
-
 }
