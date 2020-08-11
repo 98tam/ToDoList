@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddTaskActivity">
+    tools:context=".AddTaskActivity"
+    android:background="@drawable/background">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/background_activity_task"
         android:orientation="vertical"
         android:padding="16dp">
 
@@ -17,34 +19,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:text="Add a Task"
-            android:textAlignment="center"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
+            android:text="@string/activity_add_headline"
+            android:textSize="24sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textAlignment="center"/>
 
         <EditText
-            android:id="@+id/editTextTask"
+            android:id="@+id/activity_add_text_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="task?" />
+            android:hint="@string/activity_hint_task"
+            android:textColorHint="@color/colorHint"
+            android:autofillHints="@string/activity_hint_task"
+            android:inputType="textShortMessage" />
 
         <EditText
-            android:id="@+id/editTextDesc"
+            android:id="@+id/activity_add_text_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="description..." />
+            android:hint="@string/activity_hint_desc"
+            android:textColorHint="@color/colorHint"
+            android:autofillHints="@string/activity_hint_desc"
+            android:inputType="textLongMessage" />
 
         <Button
-            android:id="@+id/button_save"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/activity_add_button_save"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
-            android:background="@color/colorPrimary"
-            android:onClick="saveTask"
-            android:text="Save"
-            android:textAllCaps="false"
-            android:textColor="@color/colorLight" />
-
+            android:background="@drawable/ic_save"
+            android:onClick="saveTask" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -35,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(_savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = findViewById(R.id.recyclerview_tasks);
+        recyclerView = findViewById(R.id.activity_main_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        FloatingActionButton buttonAddTask = findViewById(R.id.floating_button_add);
+        FloatingActionButton buttonAddTask = findViewById(R.id.activity_main_button_add);
         buttonAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View _view) {

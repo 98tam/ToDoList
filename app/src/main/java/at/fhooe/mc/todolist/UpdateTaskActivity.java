@@ -37,8 +37,8 @@ public class UpdateTaskActivity extends AppCompatActivity {
         super.onCreate(_savedInstanceState);
         setContentView(R.layout.activity_update_task);
 
-        editTextTask = findViewById(R.id.editTextTask);
-        editTextDesc = findViewById(R.id.editTextDesc);
+        editTextTask = findViewById(R.id.activity_add_text_task);
+        editTextDesc = findViewById(R.id.activity_add_text_desc);
         checkBoxFinished = findViewById(R.id.checkBoxFinished);
 
         mTask = (Task) getIntent().getSerializableExtra("task");
@@ -63,14 +63,14 @@ public class UpdateTaskActivity extends AppCompatActivity {
         final String inputTask = editTextTask.getText().toString().trim();
 
         if (inputTask.isEmpty()) {
-            editTextTask.setError("Task missing!");
+            editTextTask.setError("Titel fehlt!");
             editTextTask.requestFocus();
             return;
         }
 
         final String inputDescription = editTextDesc.getText().toString().trim();
         if (inputDescription.isEmpty()) {
-            editTextDesc.setError("Description missing!");
+            editTextDesc.setError("Beschreibung fehlt!");
             editTextDesc.requestFocus();
             return;
         }
@@ -144,7 +144,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(Void _void) {
                 super.onPostExecute(_void);
-                Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Gelöscht", Toast.LENGTH_LONG).show();
                 finish();
                 startActivity(new Intent(UpdateTaskActivity.this, MainActivity.class));
             }
@@ -161,14 +161,14 @@ public class UpdateTaskActivity extends AppCompatActivity {
      */
     public void deleteTask(View _view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(UpdateTaskActivity.this);
-        builder.setTitle("Are you sure?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setTitle("Bist du sicher?");
+        builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface _dialogInterface, int _i) {
                 deleteTask(mTask);
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface _dialogInterface, int _i) {
             }

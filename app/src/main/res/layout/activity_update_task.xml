@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".UpdateTaskActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/background_activity_task"
         android:orientation="vertical"
         android:padding="16dp">
 
@@ -17,53 +20,58 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:text="Update Task"
+            android:text="@string/activity_update_headline"
             android:textAlignment="center"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="24sp" />
 
         <EditText
-            android:id="@+id/editTextTask"
+            android:id="@+id/activity_add_text_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="task?" />
+            android:autofillHints="@string/activity_hint_task"
+            android:hint="@string/activity_hint_task"
+            android:inputType="textShortMessage"
+            android:textColorHint="@color/colorHint" />
 
         <EditText
-            android:id="@+id/editTextDesc"
+            android:id="@+id/activity_add_text_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="description..." />
+            android:autofillHints="@string/activity_hint_desc"
+            android:hint="@string/activity_hint_desc"
+            android:inputType="textLongMessage"
+            android:textColorHint="@color/colorHint" />
 
         <CheckBox
             android:id="@+id/checkBoxFinished"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mark as finished" />
+            android:text="@string/activity_update_finished"
+            android:textColor="@color/colorPrimaryDark" />
 
-        <Button
-            android:id="@+id/button_update"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:background="@color/colorPrimary"
-            android:text="Update"
-            android:onClick="updateTask"
-            android:textAllCaps="false"
-            android:textColor="@color/colorLight" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            style="?android:attr/buttonBarButtonStyle">
 
+            <Button
+                android:id="@+id/activity_update_button_delete"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_delete"
+                android:onClick="deleteTask"
+                style="?android:attr/buttonBarButtonStyle"/>
 
-        <Button
-            android:id="@+id/button_delete"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:background="@color/colorRed"
-            android:text="Delete"
-            android:onClick="deleteTask"
-            android:textAllCaps="false"
-            android:textColor="@color/colorLight" />
-
+            <Button
+                android:id="@+id/activity_update_button_update"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_update"
+                android:onClick="updateTask"
+                style="?android:attr/buttonBarButtonStyle"/>
+        </LinearLayout>
 
     </LinearLayout>
 

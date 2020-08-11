@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+
 import at.fhooe.mc.todolist.model.Task;
 import at.fhooe.mc.todolist.viewmodel.DatabaseClient;
 
@@ -31,8 +33,8 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(_savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
-        mTaskText = findViewById(R.id.editTextTask);
-        mDescText = findViewById(R.id.editTextDesc);
+        mTaskText = findViewById(R.id.activity_add_text_task);
+        mDescText = findViewById(R.id.activity_add_text_desc);
     }
 
     /**
@@ -41,14 +43,14 @@ public class AddTaskActivity extends AppCompatActivity {
     public void saveTask(View _view) {
         final String inputTask = mTaskText.getText().toString().trim();
         if (inputTask.isEmpty()) {
-            mTaskText.setError("Task missing!");
+            mTaskText.setError("Titel fehlt!");
             mTaskText.requestFocus();
             return;
         }
 
         final String inputDesc = mDescText.getText().toString().trim();
         if (inputDesc.isEmpty()) {
-            mDescText.setError("Description missing!");
+            mDescText.setError("Beschreibung fehlt!");
             mDescText.requestFocus();
             return;
         }
@@ -86,7 +88,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 super.onPostExecute(_void);
                 finish();
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Gespeichert", Toast.LENGTH_LONG).show();
             }
         }
 

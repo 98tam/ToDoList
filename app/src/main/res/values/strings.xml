@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ToDoList</string>
+    <string name="activity_add_headline">Aufgabe hinzufügen</string>
+    <string name="activity_hint_task">Titel der Aufgabe</string>
+    <string name="activity_hint_desc">Beschreibung</string>
+    <string name="activity_update_headline">Aufgabe bearbeiten</string>
+    <string name="activity_update_finished">Aufgabe erledigt</string>
+    <string name="fragment_recyclerview_check">check</string>
 </resources>

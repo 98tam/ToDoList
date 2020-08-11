@@ -1,10 +1,13 @@
 package at.fhooe.mc.todolist.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +18,10 @@ import java.util.List;
 import at.fhooe.mc.todolist.R;
 import at.fhooe.mc.todolist.UpdateTaskActivity;
 import at.fhooe.mc.todolist.model.Task;
+
+import static at.fhooe.mc.todolist.R.color.black;
+import static at.fhooe.mc.todolist.R.color.colorHint;
+import static at.fhooe.mc.todolist.R.color.colorPrimaryDark;
 
 /**
  * The adapter for the recyclerview to view all elements.
@@ -49,7 +56,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public TaskViewHolder onCreateViewHolder(ViewGroup _parent, int _type) {
         return new TaskViewHolder(LayoutInflater
                 .from(mContext)
-                .inflate(R.layout.recyclerview_tasks, _parent, false));
+                .inflate(R.layout.fragment_recyclerview_task, _parent, false));
     }
 
     /**
@@ -58,16 +65,22 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
      * @param _viewHolder the given view holder
      * @param _pos        the current postion
      */
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(TaskViewHolder _viewHolder, int _pos) {
         Task task = mList.get(_pos);
         _viewHolder.mTaskText.setText(task.getTask());
         _viewHolder.mDescText.setText(task.getDesc());
 
-        if (task.isFinished())
-            _viewHolder.mStatusText.setText("Completed");
-        else
-            _viewHolder.mStatusText.setText("Not Completed");
+        if (task.isFinished()) {
+            _viewHolder.mCheck.setVisibility(View.VISIBLE);
+            _viewHolder.mTaskText.setTextColor(colorHint);
+            _viewHolder.mDescText.setTextColor(colorHint);
+            _viewHolder.mTaskText.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            _viewHolder.mDescText.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            _viewHolder.mCheck.setVisibility(View.INVISIBLE);
+        }
     }
 
     /**
@@ -86,7 +99,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         //all given text views
-        TextView mStatusText, mTaskText, mDescText;
+        TextView mTaskText, mDescText;
+        ImageView mCheck;
 
         /**
          * Constructor
@@ -96,9 +110,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         public TaskViewHolder(View _view) {
             super(_view);
 
-            mStatusText = _view.findViewById(R.id.textViewStatus);
-            mTaskText = _view.findViewById(R.id.textViewTask);
-            mDescText = _view.findViewById(R.id.textViewDesc);
+            mTaskText = _view.findViewById(R.id.fragment_recyclerview_text_task);
+            mDescText = _view.findViewById(R.id.fragment_recyclerview_text_desc);
+            mCheck = _view.findViewById(R.id.fragment_recyclerview_check);
 
             _view.setOnClickListener(this);
         }
