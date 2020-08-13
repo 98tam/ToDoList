@@ -1,5 +1,7 @@
 package at.fhooe.mc.todolist.model;
 
+import android.widget.ImageView;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -27,6 +29,10 @@ public class Task implements Serializable {
     //true if task is finished
     @ColumnInfo(name = "finished")
     private boolean mFinished;
+
+    //image
+    @ColumnInfo(name = "image")
+    private String mImage;
 
     /**
      * Getter of the primary key.
@@ -90,6 +96,14 @@ public class Task implements Serializable {
      */
     public void setFinished(boolean _finished) {
         this.mFinished = _finished;
+    }
+
+    public String getImage() {
+        return mImage;
+    }
+
+    public void setImage(String _imageUrl) {
+        this.mImage = _imageUrl;
     }
 }
 

@@ -51,26 +51,26 @@
             android:textColor="@color/colorPrimaryDark" />
 
         <LinearLayout
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            style="?android:attr/buttonBarButtonStyle">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/activity_update_button_delete"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/ic_delete"
-                android:onClick="deleteTask"
-                style="?android:attr/buttonBarButtonStyle"/>
+                android:onClick="deleteTask" />
 
             <Button
                 android:id="@+id/activity_update_button_update"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/ic_update"
-                android:onClick="updateTask"
-                style="?android:attr/buttonBarButtonStyle"/>
+                android:onClick="updateTask" />
         </LinearLayout>
 
     </LinearLayout>

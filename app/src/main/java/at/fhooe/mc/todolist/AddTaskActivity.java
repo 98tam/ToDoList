@@ -3,11 +3,14 @@ package at.fhooe.mc.todolist;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 import java.util.Objects;
 
@@ -22,6 +25,18 @@ public class AddTaskActivity extends AppCompatActivity {
 
     // the text components of the task
     private EditText mTaskText, mDescText;
+    // the image theme
+    String mImageUrl;
+
+    String inputTask, inputDesc;
+
+    private String[] urls = {"https://cdn.pixabay.com/photo/2015/09/02/12/25/basket-918416_1280.jpg",
+            "https://cdn.pixabay.com/photo/2020/04/22/21/31/flowers-5080164_1280.jpg",
+            "https://cdn.pixabay.com/photo/2017/03/27/15/14/forest-2179318_1280.jpg",
+            "https://cdn.pixabay.com/photo/2019/05/06/19/13/green-4183977_1280.jpg",
+            "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_1280.jpg",
+            "https://cdn.pixabay.com/photo/2013/08/20/15/47/sunset-174276_1280.jpg",
+            "https://cdn.pixabay.com/photo/2019/05/07/09/01/spices-4185324_1280.jpg"};
 
     /**
      * Initializes all given ui elements.
@@ -35,25 +50,59 @@ public class AddTaskActivity extends AppCompatActivity {
 
         mTaskText = findViewById(R.id.activity_add_text_task);
         mDescText = findViewById(R.id.activity_add_text_desc);
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+    }
+
+    /**
+     *
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        inputTask = mTaskText.getText().toString().trim();
+        inputDesc = mDescText.getText().toString().trim();
+
+        mDescText.setText(inputDesc);
+        mTaskText.setText(inputTask);
+    }
+
+    /**
+     * @param _item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem _item) {
+        switch (_item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(_item);
+        }
     }
 
     /**
      * Saves the task to the database.
      */
     public void saveTask(View _view) {
-        final String inputTask = mTaskText.getText().toString().trim();
+        inputTask = mTaskText.getText().toString().trim();
         if (inputTask.isEmpty()) {
             mTaskText.setError("Titel fehlt!");
             mTaskText.requestFocus();
             return;
         }
 
-        final String inputDesc = mDescText.getText().toString().trim();
+        inputDesc = mDescText.getText().toString().trim();
         if (inputDesc.isEmpty()) {
             mDescText.setError("Beschreibung fehlt!");
             mDescText.requestFocus();
             return;
         }
+
+        int max = 6;
+        int min = 0;
+        final int choice = (int) (Math.random() * (max - min + 1)) + min;
 
         /**
          * This class makes the whole saving of the input data.
@@ -71,6 +120,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 task.setTask(inputTask);
                 task.setDesc(inputDesc);
                 task.setFinished(false);
+                task.setImage(urls[choice]);
 
                 DatabaseClient.getInstance(getApplicationContext())
                         .getDatabase()
@@ -95,7 +145,5 @@ public class AddTaskActivity extends AppCompatActivity {
         SaveTask saveTask = new SaveTask();
         saveTask.execute();
     }
-
-
 }
 

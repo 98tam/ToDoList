@@ -6,4 +6,6 @@
     <string name="activity_update_headline">Aufgabe bearbeiten</string>
     <string name="activity_update_finished">Aufgabe erledigt</string>
     <string name="fragment_recyclerview_check">check</string>
+    <string name="fragment_recyclerview_image">Image</string>
+    <string name="activity_image_choice_headline">Bild hinzufügen</string>
 </resources>

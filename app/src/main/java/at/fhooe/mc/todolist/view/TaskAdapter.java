@@ -7,11 +7,14 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -71,6 +74,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         Task task = mList.get(_pos);
         _viewHolder.mTaskText.setText(task.getTask());
         _viewHolder.mDescText.setText(task.getDesc());
+        Glide.with(mContext).load(task.getImage()).into(_viewHolder.mImage);
 
         if (task.isFinished()) {
             _viewHolder.mCheck.setVisibility(View.VISIBLE);
@@ -78,6 +82,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             _viewHolder.mDescText.setTextColor(colorHint);
             _viewHolder.mTaskText.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             _viewHolder.mDescText.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            _viewHolder.mImage.setAlpha(0.5f);
         } else {
             _viewHolder.mCheck.setVisibility(View.INVISIBLE);
         }
@@ -100,7 +105,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         //all given text views
         TextView mTaskText, mDescText;
-        ImageView mCheck;
+        //represents a check-mark when task is finished
+        ImageView mCheck, mImage;
 
         /**
          * Constructor
@@ -113,6 +119,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             mTaskText = _view.findViewById(R.id.fragment_recyclerview_text_task);
             mDescText = _view.findViewById(R.id.fragment_recyclerview_text_desc);
             mCheck = _view.findViewById(R.id.fragment_recyclerview_check);
+            mImage = _view.findViewById(R.id.fragment_recyclerview_image);
 
             _view.setOnClickListener(this);
         }
