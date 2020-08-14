@@ -1,4 +1,4 @@
-package at.fhooe.mc.todolist;
+package at.fhooe.mc.todolist.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,8 +12,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import at.fhooe.mc.todolist.R;
 import at.fhooe.mc.todolist.model.Task;
-import at.fhooe.mc.todolist.viewmodel.DatabaseClient;
+import at.fhooe.mc.todolist.model.DatabaseClient;
 
 /**
  * This activity updates the task changes.
@@ -21,9 +22,9 @@ import at.fhooe.mc.todolist.viewmodel.DatabaseClient;
 public class UpdateTaskActivity extends AppCompatActivity {
 
     //the given edit-text-fields
-    private EditText editTextTask, editTextDesc;
+    private EditText mTaskText, mDescText;
     //the finish checkbox of a task
-    private CheckBox checkBoxFinished;
+    private CheckBox mCheckbox;
     //the current task
     private Task mTask;
 
@@ -37,9 +38,9 @@ public class UpdateTaskActivity extends AppCompatActivity {
         super.onCreate(_savedInstanceState);
         setContentView(R.layout.activity_update_task);
 
-        editTextTask = findViewById(R.id.activity_add_text_task);
-        editTextDesc = findViewById(R.id.activity_add_text_desc);
-        checkBoxFinished = findViewById(R.id.checkBoxFinished);
+        mTaskText = findViewById(R.id.activity_add_text_task);
+        mDescText = findViewById(R.id.activity_add_text_desc);
+        mCheckbox = findViewById(R.id.checkBoxFinished);
 
         mTask = (Task) getIntent().getSerializableExtra("task");
         loadTask();
@@ -49,9 +50,9 @@ public class UpdateTaskActivity extends AppCompatActivity {
      * Loads the current task.
      */
     private void loadTask() {
-        editTextTask.setText(mTask.getTask());
-        editTextDesc.setText(mTask.getDesc());
-        checkBoxFinished.setChecked(mTask.isFinished());
+        mTaskText.setText(mTask.getTask());
+        mDescText.setText(mTask.getDesc());
+        mCheckbox.setChecked(mTask.isFinished());
     }
 
     /**
@@ -60,18 +61,18 @@ public class UpdateTaskActivity extends AppCompatActivity {
      * @param _view the given view
      */
     public void updateTask(View _view) {
-        final String inputTask = editTextTask.getText().toString().trim();
+        final String inputTask = mTaskText.getText().toString().trim();
 
         if (inputTask.isEmpty()) {
-            editTextTask.setError("Titel fehlt!");
-            editTextTask.requestFocus();
+            mTaskText.setError("Titel fehlt!");
+            mTaskText.requestFocus();
             return;
         }
 
-        final String inputDescription = editTextDesc.getText().toString().trim();
+        final String inputDescription = mDescText.getText().toString().trim();
         if (inputDescription.isEmpty()) {
-            editTextDesc.setError("Beschreibung fehlt!");
-            editTextDesc.requestFocus();
+            mDescText.setError("Beschreibung fehlt!");
+            mDescText.requestFocus();
             return;
         }
 
@@ -89,7 +90,7 @@ public class UpdateTaskActivity extends AppCompatActivity {
             protected Void doInBackground(Void... _void) {
                 mTask.setTask(inputTask);
                 mTask.setDesc(inputDescription);
-                mTask.setFinished(checkBoxFinished.isChecked());
+                mTask.setFinished(mCheckbox.isChecked());
                 DatabaseClient.getInstance(getApplicationContext()).getDatabase()
                         .getTaskDao()
                         .update(mTask);
@@ -103,7 +104,6 @@ public class UpdateTaskActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(Void _void) {
                 super.onPostExecute(_void);
-                finish();
                 startActivity(new Intent(UpdateTaskActivity.this, MainActivity.class));
             }
         }

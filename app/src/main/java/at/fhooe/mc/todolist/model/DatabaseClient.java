@@ -1,4 +1,4 @@
-package at.fhooe.mc.todolist.viewmodel;
+package at.fhooe.mc.todolist.model;
 
 import android.content.Context;
 
@@ -21,7 +21,7 @@ public class DatabaseClient {
      * @param _context is the context of the client
      */
     private DatabaseClient(Context _context) {
-        this.mContext = _context;
+        mContext = _context;
         mDatabase = Room.databaseBuilder(_context, DataBase.class, "MyToDos").build();
     }
 

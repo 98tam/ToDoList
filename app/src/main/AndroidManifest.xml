@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,11 +20,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddTaskActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".view.AddTaskActivity"
+            android:parentActivityName=".view.MainActivity" />
         <activity
-            android:name=".UpdateTaskActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name=".view.UpdateTaskActivity"
+            android:parentActivityName=".view.MainActivity" />
 
     </application>
 

@@ -8,6 +8,8 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import at.fhooe.mc.todolist.model.Task;
+
 /**
  * This interface is the data access object of the task.
  */

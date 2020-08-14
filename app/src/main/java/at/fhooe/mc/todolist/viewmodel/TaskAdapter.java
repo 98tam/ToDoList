@@ -1,4 +1,4 @@
-package at.fhooe.mc.todolist.view;
+package at.fhooe.mc.todolist.viewmodel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,12 +18,10 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import at.fhooe.mc.todolist.R;
-import at.fhooe.mc.todolist.UpdateTaskActivity;
+import at.fhooe.mc.todolist.view.UpdateTaskActivity;
 import at.fhooe.mc.todolist.model.Task;
 
-import static at.fhooe.mc.todolist.R.color.black;
 import static at.fhooe.mc.todolist.R.color.colorHint;
-import static at.fhooe.mc.todolist.R.color.colorPrimaryDark;
 
 /**
  * The adapter for the recyclerview to view all elements.

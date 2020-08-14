@@ -98,10 +98,18 @@ public class Task implements Serializable {
         this.mFinished = _finished;
     }
 
+    /**
+     * Getter of the task image url.
+     * @return the image url as a String
+     */
     public String getImage() {
         return mImage;
     }
 
+    /**
+     * Set the image url.
+     * @param _imageUrl is the given image url.
+     */
     public void setImage(String _imageUrl) {
         this.mImage = _imageUrl;
     }

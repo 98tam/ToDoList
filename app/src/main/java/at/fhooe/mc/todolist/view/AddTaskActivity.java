@@ -1,4 +1,4 @@
-package at.fhooe.mc.todolist;
+package at.fhooe.mc.todolist.view;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,8 +13,9 @@ import androidx.core.app.NavUtils;
 
 import java.util.Objects;
 
+import at.fhooe.mc.todolist.R;
 import at.fhooe.mc.todolist.model.Task;
-import at.fhooe.mc.todolist.viewmodel.DatabaseClient;
+import at.fhooe.mc.todolist.model.DatabaseClient;
 
 /**
  * This activity adds the tasks to the overview
@@ -25,12 +25,8 @@ public class AddTaskActivity extends AppCompatActivity {
 
     // the text components of the task
     private EditText mTaskText, mDescText;
-    // the image theme
-    String mImageUrl;
-
-    String inputTask, inputDesc;
-
-    private String[] urls = {"https://cdn.pixabay.com/photo/2015/09/02/12/25/basket-918416_1280.jpg",
+    // given image urls
+    private String[] mUrls = {"https://cdn.pixabay.com/photo/2015/09/02/12/25/basket-918416_1280.jpg",
             "https://cdn.pixabay.com/photo/2020/04/22/21/31/flowers-5080164_1280.jpg",
             "https://cdn.pixabay.com/photo/2017/03/27/15/14/forest-2179318_1280.jpg",
             "https://cdn.pixabay.com/photo/2019/05/06/19/13/green-4183977_1280.jpg",
@@ -55,21 +51,10 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     /**
+     * This method provides the right order for the back button.
      *
-     */
-    @Override
-    protected void onPause() {
-        super.onPause();
-        inputTask = mTaskText.getText().toString().trim();
-        inputDesc = mDescText.getText().toString().trim();
-
-        mDescText.setText(inputDesc);
-        mTaskText.setText(inputTask);
-    }
-
-    /**
-     * @param _item
-     * @return
+     * @param _item is the menuitem
+     * @return true if the right activity is chosen
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem _item) {
@@ -86,14 +71,14 @@ public class AddTaskActivity extends AppCompatActivity {
      * Saves the task to the database.
      */
     public void saveTask(View _view) {
-        inputTask = mTaskText.getText().toString().trim();
+        final String inputTask = mTaskText.getText().toString().trim();
         if (inputTask.isEmpty()) {
             mTaskText.setError("Titel fehlt!");
             mTaskText.requestFocus();
             return;
         }
 
-        inputDesc = mDescText.getText().toString().trim();
+        final String inputDesc = mDescText.getText().toString().trim();
         if (inputDesc.isEmpty()) {
             mDescText.setError("Beschreibung fehlt!");
             mDescText.requestFocus();
@@ -120,7 +105,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 task.setTask(inputTask);
                 task.setDesc(inputDesc);
                 task.setFinished(false);
-                task.setImage(urls[choice]);
+                task.setImage(mUrls[choice]);
 
                 DatabaseClient.getInstance(getApplicationContext())
                         .getDatabase()

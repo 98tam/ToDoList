@@ -1,10 +1,7 @@
-package at.fhooe.mc.todolist.viewmodel;
+package at.fhooe.mc.todolist.model;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
-
-import at.fhooe.mc.todolist.model.Task;
-import at.fhooe.mc.todolist.model.TaskDao;
 
 /**
  * The database for the to-do-list.
