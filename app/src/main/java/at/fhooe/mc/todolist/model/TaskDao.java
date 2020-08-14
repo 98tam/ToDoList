@@ -41,6 +41,13 @@ public interface TaskDao {
     void delete(Task task);
 
     /**
+     * Deletes all tasks from database.
+     */
+    @Query("DELETE FROM task")
+    void deleteAll();
+
+
+    /**
      * Updates changes of the task.
      *
      * @param task the given task

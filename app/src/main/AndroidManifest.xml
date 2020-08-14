@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -25,6 +26,10 @@
         <activity
             android:name=".view.UpdateTaskActivity"
             android:parentActivityName=".view.MainActivity" />
+
+        <service
+            android:name=".model.TaskJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
 
     </application>
 

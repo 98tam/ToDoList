@@ -1,8 +1,12 @@
 package at.fhooe.mc.todolist.model;
 
+import android.app.Application;
 import android.content.Context;
+import android.os.AsyncTask;
 
 import androidx.room.Room;
+
+import java.util.List;
 
 /**
  * This class defines the client of the database.
@@ -15,6 +19,10 @@ public class DatabaseClient {
     private static DatabaseClient mClient;
     //database object
     private DataBase mDatabase;
+    // taskDao object
+    private TaskDao mTask;
+    // list of task objects
+    List<Task> mAllTasks;
 
     /**
      * Constructor
@@ -43,5 +51,43 @@ public class DatabaseClient {
      */
     public DataBase getDatabase() {
         return mDatabase;
+    }
+
+
+    public DatabaseClient(Application _application){
+        DataBase db = DataBase.getDatabase(_application);
+        mTask = db.getTaskDao();
+        mAllTasks = mTask.getAll();
+    }
+
+    /**
+     * Returns a list with all tasks
+     * @return list with the tasks
+     */
+    public List<Task> getAllTasks() {
+        return mAllTasks;
+    }
+
+    /**
+     * Insert a task or a list of tasks
+     * @param task the given task, which should be inserted
+     */
+    public void insertTask(List<Task> task) {
+        new insertAsyncTask(mTask).execute(task);
+    }
+
+    private static class insertAsyncTask extends AsyncTask<List<Task>, Void, Void> {
+        // async TaskDao object
+        private TaskDao mAsyncTaskDao;
+
+        insertAsyncTask(TaskDao _dao) {
+            mAsyncTaskDao = _dao;
+        }
+
+        @Override
+        protected Void doInBackground(final List<Task>... _params) {
+            mAsyncTaskDao.insert((Task) _params[0]);
+            return null;
+        }
     }
 }

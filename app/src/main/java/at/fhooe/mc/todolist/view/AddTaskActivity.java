@@ -1,8 +1,13 @@
 package at.fhooe.mc.todolist.view;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -16,6 +21,7 @@ import java.util.Objects;
 import at.fhooe.mc.todolist.R;
 import at.fhooe.mc.todolist.model.Task;
 import at.fhooe.mc.todolist.model.DatabaseClient;
+import at.fhooe.mc.todolist.model.TaskJobService;
 
 /**
  * This activity adds the tasks to the overview
@@ -43,6 +49,8 @@ public class AddTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle _savedInstanceState) {
         super.onCreate(_savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
+        scheduleJob();
 
         mTaskText = findViewById(R.id.activity_add_text_task);
         mDescText = findViewById(R.id.activity_add_text_desc);
@@ -129,6 +137,20 @@ public class AddTaskActivity extends AppCompatActivity {
 
         SaveTask saveTask = new SaveTask();
         saveTask.execute();
+    }
+
+    private void scheduleJob() {
+        JobScheduler jobScheduler = (JobScheduler) getApplicationContext()
+                .getSystemService(JOB_SCHEDULER_SERVICE);
+
+        ComponentName componentName = new ComponentName(this,
+                TaskJobService.class);
+
+        JobInfo jobInfo = new JobInfo.Builder(1, componentName)
+                .setPeriodic(86400000).setRequiredNetworkType(
+                        JobInfo.NETWORK_TYPE_NOT_ROAMING)
+                .setPersisted(true).build();
+        jobScheduler.schedule(jobInfo);
     }
 }
 
